@@ -1,0 +1,91 @@
+.back {
+    background: #191919;
+
+
+    height: 100vh;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 12;
+    /* overflow: hidden; */
+}
+
+.main {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+}
+
+.telegram {
+    margin-right: 15px;
+}
+
+.telegram:active {
+    margin-right: 15px;
+    background-color: transparent;
+}
+
+
+.title {
+    margin-top: 200px;
+    font-family: Inter;
+    font-size: 65px;
+    font-weight: 900;
+    color: #DFDFDF;
+    background: linear-gradient(180deg, #2B97B9 0%, #62B6C4 100%);
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 4px solid #42473C;
+    box-shadow: 10px 8px 9.4px 0px #5E5E5E6E inset;
+    border-radius: 22px;
+    width: 80%;
+}
+
+/* .bee
+{
+    margin-top: 20px;
+    animation: move 2s infinite linear;
+} */
+
+@keyframes move {
+    from {
+        filter: drop-shadow( 0px  0px 44px #F34D71);
+    }
+    to {
+        filter: drop-shadow( 0px  0px 24px #F34D71);
+    }
+  } 
+
+
+
+  .media {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+}
+
+
+.bee{
+    width: 55%;
+    filter: drop-shadow( 0px  0px 64px #F34D71);
+
+
+    animation: move 1s infinite alternate-reverse;
+}
+
+.label {
+    margin-top: 20px;
+    font-family: Inter;
+font-size: 42px;
+font-weight: 700;
+
+
+    color: #F34D71;
+
+}
