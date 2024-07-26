@@ -1,49 +1,53 @@
-import React from 'react'
-import { EmblaOptionsType } from 'embla-carousel'
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import styles from "./main_c.module.css";
+import React, { useState } from 'react';
+import styles from "./main_c.module.css"
+import { useDrag } from '@use-gesture/react';
+import Dots from './Dots';
 
 
-type PropType = {
-    slides: number[]
-    options?: EmblaOptionsType
-  }
-  
-export const MainCarousel: React.FC<PropType> = (props) => {
-  var settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    customPaging: (i: number) => (
-        <div
-          style={{
-            position: "absolute",
-            top: 0,
-            width: "30px",
-            color: "blue",
-            border: "1px blue solid"
-          }}
-        >
-          {i + 1}
-        </div>
-      )
+const ImageSlider = ({ slides }: any) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const handleNextSlide = () => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % slides.length);
   };
+
+  const handlePrevSlide = () => {
+    setCurrentIndex((prevIndex) => (prevIndex - 1 + slides.length) % slides.length);
+  };
+
+  const bind = useDrag(state => {
+    const {
+      swipe,         // [swipeX, swipeY] 0 if no swipe detected, -1 or 1 otherwise
+      tap,   // is the drag assimilated to a tap
+      xy: [x, y]         
+    } = state
+    console.log(swipe)
+    if (swipe[0] === 1){
+        handlePrevSlide()
+    }
+    if (swipe[0] === -1){
+        handleNextSlide()
+    }
+   
+  })
+
+  const currentSlide = slides[currentIndex];
+
   return (
-    <Slider {...settings}>
-      <div className={styles.photo}>
-        <h3>1</h3>
-      </div>
-      <div>
-        <h3>2</h3>
-      </div>
-      <div>
-        <h3>3</h3>
-      </div>
+    <div className={styles.slider_container} {...bind()}>
+        
+      {<div className={styles.slide}>
+        <Dots length={2} current={currentIndex}></Dots>
+      {[<img src={"img/image.png"}className={styles.image}></img>, <img src={"img/girl.jpg"}className={styles.image}></img>, <img src={"img/image.png"}className={styles.image}></img>][currentIndex]}
+      <div className={styles.title}>
+      <p className={styles.name}>Алиса, 19</p>
+      <div className={styles.desc_}><img src="img/location.svg"></img><p className={styles.desc}>Москва</p></div>
+    </div>
       
-    </Slider>
+      <div className={styles.dark}></div></div>}
+     
+    </div>
   );
-}
+};
+
+export default ImageSlider;

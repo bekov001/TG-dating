@@ -1,0 +1,22 @@
+.dots {
+    position: absolute;
+    top: 10px;
+    display: flex;
+    flex-direction: row;
+}
+
+.active {
+    width: 20px;
+    height: 6px;
+    border-radius: 10px;
+    background: #ffffff;
+    margin-left: 5px;
+}
+
+.not {
+    width: 20px;
+    height: 6px;
+    background: #6b6a6a84;
+    border-radius: 10px;
+    margin-left: 5px;
+}
