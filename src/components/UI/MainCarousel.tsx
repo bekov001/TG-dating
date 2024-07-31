@@ -1,11 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from "./main_c.module.css"
 import { useDrag } from '@use-gesture/react';
 import Dots from './Dots';
 
-
-const ImageSlider = ({ slides }: any) => {
-  const [currentIndex, setCurrentIndex] = useState(0);
+interface IImages{
+  slides: any, 
+  person: any,
+  currentIndex: number,
+  setCurrentIndex: any
+}
+const ImageSlider = ({ slides, person, currentIndex, setCurrentIndex }: IImages) => {
+  
 
   const handleNextSlide = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % slides.length);
@@ -25,23 +30,34 @@ const ImageSlider = ({ slides }: any) => {
     if (swipe[0] === 1){
         handlePrevSlide()
     }
+    else if (tap){
+        handleNextSlide()
+    }
     if (swipe[0] === -1){
         handleNextSlide()
     }
    
   })
 
-  const currentSlide = slides[currentIndex];
+  // const images = []
+
+  
 
   return (
     <div className={styles.slider_container} {...bind()}>
         
       {<div className={styles.slide}>
-        <Dots length={2} current={currentIndex}></Dots>
-      {[<img src={"img/image.png"}className={styles.image}></img>, <img src={"img/girl.jpg"}className={styles.image}></img>, <img src={"img/image.png"}className={styles.image}></img>][currentIndex]}
+        {slides.length > 1 ? <Dots length={slides.length} current={currentIndex}></Dots>: ""}
+        {slides.map((
+            el: string, id: number
+        ) => {
+            return <img key={id} src={"data:image/png;base64," + el} className={styles.image} style={{display: (id === currentIndex ? "block": "none")}}></img>
+        })}
+      {/* {[<img src={"img/image.png"}className={styles.image}></img>, <img src={"img/girl.jpg"}className={styles.image}></img>, <img src={"img/image.png"}className={styles.image}></img>][currentIndex]} */}
       <div className={styles.title}>
-      <p className={styles.name}>Алиса, 19</p>
-      <div className={styles.desc_}><img src="img/location.svg"></img><p className={styles.desc}>Москва</p></div>
+        {person.liked && <p className={styles.liked}>Этот пользователь поставил тебе лайк!</p>}
+      <p className={styles.name}>{person.name}, {person.age}</p>
+      <div className={styles.desc_}><img src="img/location.svg"></img><p className={styles.desc}>{person.city}</p></div>
     </div>
       
       <div className={styles.dark}></div></div>}

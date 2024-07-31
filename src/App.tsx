@@ -46,18 +46,21 @@ function App() {
   const [showComponent, setShowComponent] = useState(0);
   const [isExpanded, expand] = useExpand();
   const [webApp, setWebApp] = useState({});
-  const [user, setUser] = useState();
+  const [user, setUser] = useState({
+    name: "",
+    age_range: ""
+  });
   const [loadingTasks, setLoadingTasks] = useState(true);
   const width = (window.innerWidth);
-  // const WebApp = useWebApp(); 
-  const WebApp = {  enableClosingConfirmation(): number {
-    return 0;
-},
-platform: 'ios', 'initData': 'query_id=AAFVoUs6AAAAAFWhSzow03Js&user=%7B%22id%22%3A978035029%2C%22first_name%22%3A%22Anuarka%22%2C%22last_name%22%3A%22%22%2C%22username%22%3A%22anuarka1%22%2C%22language_code%22%3A%22ru%22%2C%22allows_write_to_pm%22%3Atrue%7D&auth_date=1719298675&hash=a91e0aabe62d449f116ba68f69aca936213808d5ca4cca69d1d881d77238067b'}
+  const WebApp = useWebApp(); 
+//   const WebApp = {  enableClosingConfirmation(): number {
+//     return 0;
+// },
+// platform: 'ios', 'initData': 'query_id=AAFVoUs6AAAAAFWhSzow03Js&user=%7B%22id%22%3A978035029%2C%22first_name%22%3A%22Anuarka%22%2C%22last_name%22%3A%22%22%2C%22username%22%3A%22anuarka1%22%2C%22language_code%22%3A%22ru%22%2C%22allows_write_to_pm%22%3Atrue%7D&auth_date=1719298675&hash=a91e0aabe62d449f116ba68f69aca936213808d5ca4cca69d1d881d77238067b'}
   const [balance, setBalance] = useState(0);
   const [status, setStatus] = useState("NOT_STARTED");
   const [timeLeft, setTimeLeft] = useState("");
-  const [mined, setMined] = useState("");
+  const [age, setAge] = useState([18, 25]);
   const [value, setValue] = useState(0);
   const [totalProfit, setTotalProfit] = useState(0);
   const [startTime, setStartTime] = useState("");
@@ -65,7 +68,7 @@ platform: 'ios', 'initData': 'query_id=AAFVoUs6AAAAAFWhSzow03Js&user=%7B%22id%22
   const [currentDay, setCurrentDay] = useState(0);
   const [claimed, setClaimed] = useState(false);
   const [dailyReward, setDailyReward] = useState(0);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [friends, setFriends] = useState([]);
   const [earned, setEarned] = useState(0);
   const [userID, setUserID] = useState(0)
@@ -80,6 +83,8 @@ platform: 'ios', 'initData': 'query_id=AAFVoUs6AAAAAFWhSzow03Js&user=%7B%22id%22
   const [energy, setEnergy] = useState(0);
   const [refBalance, setRefBalance] = useState(0);
   const [language, setLanguage] = useState("RU");
+  const [username, setUsername] = useState("Михаил З.")
+  const [avatar, setAvatar] = useState("Михаил З.")
   // const pushed = [];
   let total = 0;
   function setLoaded(){
@@ -208,28 +213,15 @@ platform: 'ios', 'initData': 'query_id=AAFVoUs6AAAAAFWhSzow03Js&user=%7B%22id%22
 
   }
 
-  const claimDailyReward = () => {
+  const changeFilter = (value: number[]) => {
     const header = { headers: { Authorization:localStorage.getItem('jwt') } };
-    client.post('/user/rewards/daily/claim', {}, header).then(function (response) {
+    client.post('/user/account/setFilter', {
+        type: "age",
+        value: {"from": value[0], "to": value[1]}
+    }, header).then(function (response) {
       // setStatus("NOT_STARTED")
       const data = response.data;
-      setBalance(data.user.balance)
-      // setCurrentDay(data.user.day)
-      setClaimed(true)
-      setShowReceivedNotification(true);
-      setTimeout(() => setShowReceivedNotification(false), 3000)
-      // getCurrent();
-    });
-
-  }
-
-  const claimRef = () => {
-    const header = { headers: { Authorization:localStorage.getItem('jwt') } };
-    client.post('/user/referrals/claimProfit', {}, header).then(function (response) {
-      // setStatus("NOT_STARTED")
-      const data = response.data;
-      setBalance(data.user.balance);
-      setRefBalance(0);
+      setAge(value)
       // // setCurrentDay(data.user.day)
       // setClaimed(true)
       // setShowReceivedNotification(true);
@@ -238,6 +230,8 @@ platform: 'ios', 'initData': 'query_id=AAFVoUs6AAAAAFWhSzow03Js&user=%7B%22id%22
     });
 
   }
+
+  
 
 
   const updateValue = (start:string, duration: number) => {
@@ -259,7 +253,7 @@ platform: 'ios', 'initData': 'query_id=AAFVoUs6AAAAAFWhSzow03Js&user=%7B%22id%22
     
    
     const minedCoins =  hours * hour_m + (seconds) * second_m;
-    setMined(minedCoins.toFixed(2))
+    // setMined(minedCoins.toFixed(2))
   }
 
   const updateButton = (hours: number, start:string, duration: number) => {
@@ -304,10 +298,12 @@ platform: 'ios', 'initData': 'query_id=AAFVoUs6AAAAAFWhSzow03Js&user=%7B%22id%22
     const config : any = {
       'init_data': WebApp.initData,
     }
+    console.log(WebApp.initData)
   client.post('/user/account/login', config).then(function (response) {
     const data = response.data;
     jwt = data.jwt_token;
     setWebApp(data.webapp_auth_data);
+    // setUsername
     localStorage.setItem("jwt", 'Bearer ' + jwt);
     getMe()
   });
@@ -325,23 +321,27 @@ platform: 'ios', 'initData': 'query_id=AAFVoUs6AAAAAFWhSzow03Js&user=%7B%22id%22
     const header = { headers: { Authorization:localStorage.getItem('jwt') } };
     client.get('/user/account/getMe', header).then(function (response) {
       const data = response.data;
+      setLoading(false)
       setUser(data.user)
-      setBalance(data.user.balance)
-      setStatus(data.user.farming.status)
-      setStartTime(data.user.farming.started_at)
-      setCurrentDay(data.user.current_daily_reward)
-      setGameScore(data.user.game_alltime_highscore)
-      setEnergy(data.user.game_energy);
-      setRefBalance(data.user.referral_balance);
+      console.log(data.user)
+      setAge([data.user.age_range.from_age, data.user.age_range.to_age])
+      // setBalance(data.user.balance)
+      // setStatus(data.user.farming.status)
+      // setStartTime(data.user.farming.started_at)
+      // setCurrentDay(data.user.current_daily_reward)
+      // setGameScore(data.user.game_alltime_highscore)
+      // setEnergy(data.user.game_energy);
+      // setRefBalance(data.user.referral_balance);
       setLanguage(data.user.language)
-      if (data.user.farming.status === "IN_PROGRESS"){
-        // console.log()
-        intervals(data)
-      }
-      getPlaceToday();
-      getRewards()
+      // if (data.user.farming.status === "IN_PROGRESS"){
+      //   // console.log()
+      //   intervals(data)
+      // }
+      // getPlaceToday();
+      // getRewards()
       setUserID(data.user.id)
-      setTotalProfit(data.user.farming.total_profit)
+      setUsername(data.user.name)
+      // setTotalProfit(data.user.farming.total_profit)
   });
   }
 
@@ -414,7 +414,7 @@ platform: 'ios', 'initData': 'query_id=AAFVoUs6AAAAAFWhSzow03Js&user=%7B%22id%22
       .then(() => setAllImagesLoaded(true))
       .catch(err => console.log("Failed to load images", err))
 
-    // login();
+    login();
     setInterval(() => login(), 60 * 60 * 1000)
     
   }, [])
@@ -434,8 +434,9 @@ platform: 'ios', 'initData': 'query_id=AAFVoUs6AAAAAFWhSzow03Js&user=%7B%22id%22
 
   // ebApp.platform !== 'unknown' WebApp.platform != "tdesktop" && WebApp.platform != "weba" && WebApp.platform !== 'web'
 
-  if (WebApp.platform === "weba" || WebApp.platform === 'unknown' || WebApp.platform === 'web' ||  WebApp.platform === 'tdesktop') {
-    return (
+  // if (WebApp.platform === "weba" || WebApp.platform === 'unknown' || WebApp.platform === 'web' ||  WebApp.platform === 'tdesktop') {
+    if (false){
+  return (
       <WebAppProvider>
       <div>
         {/* <BanPC></BanPC> */}
@@ -450,7 +451,7 @@ platform: 'ios', 'initData': 'query_id=AAFVoUs6AAAAAFWhSzow03Js&user=%7B%22id%22
         <WebAppProvider>
         <div>
           {loading ? <Loading platform={WebApp.platform}></Loading> : ""}
-          {showComponent === 0 ? <Main></Main>: ""}
+          {showComponent === 0 ? <Main changeFilter={changeFilter} age={age} user={user}></Main>: ""}
           {/* {!loading  && allImagesLoaded && showComponent !== 4 ? <Tabs  setShowComponent={setShowComponent} showComponent={showComponent}></Tabs> : ""} */}
         </div>
         </WebAppProvider>
