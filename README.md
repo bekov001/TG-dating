@@ -1,6 +1,6 @@
 # TELEGRAM DATING APP
 
-DEMO: [link](https://match-tg.netlify.app/)[resize screen]
+DEMO: https://match-tg.netlify.app/  (resize screen)
 
 to run
 
