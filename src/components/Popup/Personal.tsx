@@ -4,9 +4,11 @@ import styles from "./personal.module.css"
 
 interface IFilter {
     cancel: () => void,
-    info: string
+    info: string,
+    person: any
+
 }
-export default function Personal({cancel, info}: IFilter) {
+export default function Personal({person, cancel, info}: IFilter) {
 
     // const [values, setValues] = React.useState([18, 80]);
     return (
@@ -15,8 +17,8 @@ export default function Personal({cancel, info}: IFilter) {
         <div className={styles.main}>
             <div className={styles.section}>
             
-            <p className={styles.name}>Алиса, 19</p>
-            <div className={styles.place}><img src="img/location.svg"></img><p className={styles.desc}>Москва</p></div>
+            <p className={styles.name}>{person.name}, {person.age}</p>
+            <div className={styles.place}><img src="img/location.svg"></img><p className={styles.desc}>{person.city}</p></div>
             </div>
             {/* <div onClick={() => cancel()}  className={styles.close} style={{ WebkitTapHighlightColor: 'transparent' }}><img src={"images/close.png"}  alt="logo"  /></div> */}
          

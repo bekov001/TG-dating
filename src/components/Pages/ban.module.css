@@ -1,0 +1,41 @@
+.back {
+    background: #2B2B2B;
+    height: 100vh;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.main {
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.ban {
+    font-family: Inter;
+font-size: 22px;
+font-weight: 700;
+color: #F34D71;
+margin-bottom: 20px;
+text-align: center;
+
+}
+
+.scan {
+    font-family: Inter;
+font-size: 38px;
+font-weight: 700;
+color: #F34D71;
+margin-top: 20px;
+
+}
+
+.img {
+    width: 80%
+
+}
+
+

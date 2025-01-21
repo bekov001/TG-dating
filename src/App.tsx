@@ -20,6 +20,7 @@ import Loading from './components/Pages/Loading.tsx';
 
 import ReactGA from 'react-ga4';
 import Main from './components/Pages/Main.tsx';
+import BanPC from './components/Pages/BanPC.tsx';
 
 // ReactGA.initialize('Your-Measurement-ID');
 const TRACKING_ID = "G-M462NNXKGD"; // OUR_TRACKING_ID
@@ -47,16 +48,17 @@ function App() {
   const [isExpanded, expand] = useExpand();
   const [webApp, setWebApp] = useState({});
   const [user, setUser] = useState({
+    avatar: "",
     name: "",
     age_range: ""
   });
   const [loadingTasks, setLoadingTasks] = useState(true);
   const width = (window.innerWidth);
-  const WebApp = useWebApp(); 
-//   const WebApp = {  enableClosingConfirmation(): number {
-//     return 0;
-// },
-// platform: 'ios', 'initData': 'query_id=AAFVoUs6AAAAAFWhSzow03Js&user=%7B%22id%22%3A978035029%2C%22first_name%22%3A%22Anuarka%22%2C%22last_name%22%3A%22%22%2C%22username%22%3A%22anuarka1%22%2C%22language_code%22%3A%22ru%22%2C%22allows_write_to_pm%22%3Atrue%7D&auth_date=1719298675&hash=a91e0aabe62d449f116ba68f69aca936213808d5ca4cca69d1d881d77238067b'}
+  // const WebApp = useWebApp(); 
+  const WebApp = {  enableClosingConfirmation(): number {
+    return 0;
+},
+platform: 'ios', 'initData': 'query_id=AAFVoUs6AAAAAFWhSzow03Js&user=%7B%22id%22%3A978035029%2C%22first_name%22%3A%22Anuarka%22%2C%22last_name%22%3A%22%22%2C%22username%22%3A%22anuarka1%22%2C%22language_code%22%3A%22ru%22%2C%22allows_write_to_pm%22%3Atrue%7D&auth_date=1719298675&hash=a91e0aabe62d449f116ba68f69aca936213808d5ca4cca69d1d881d77238067b'}
   const [balance, setBalance] = useState(0);
   const [status, setStatus] = useState("NOT_STARTED");
   const [timeLeft, setTimeLeft] = useState("");
@@ -393,7 +395,7 @@ function App() {
   useEffect(() => {
     // expand();
     // if (WebApp) {WebApp.setHeaderColor("#2b96b9")}
-
+    setTimeout(() => setLoading(false), 3000)
     const loadImage = (image: any) => {
       return new Promise((resolve, reject) => {
         const loadImg = new Image()
@@ -434,12 +436,12 @@ function App() {
 
   // ebApp.platform !== 'unknown' WebApp.platform != "tdesktop" && WebApp.platform != "weba" && WebApp.platform !== 'web'
 
-  // if (WebApp.platform === "weba" || WebApp.platform === 'unknown' || WebApp.platform === 'web' ||  WebApp.platform === 'tdesktop') {
-    if (false){
+  if (WebApp.platform === "weba" || WebApp.platform === 'unknown' || WebApp.platform === 'web' ||  WebApp.platform === 'tdesktop') {
+    // if (false){
   return (
       <WebAppProvider>
       <div>
-        {/* <BanPC></BanPC> */}
+        <BanPC></BanPC>
       </div>
       </WebAppProvider>
     );
@@ -451,7 +453,7 @@ function App() {
         <WebAppProvider>
         <div>
           {loading ? <Loading platform={WebApp.platform}></Loading> : ""}
-          {showComponent === 0 ? <Main changeFilter={changeFilter} age={age} user={user}></Main>: ""}
+          {<Main changeFilter={changeFilter} age={age} user={user}></Main>}
           {/* {!loading  && allImagesLoaded && showComponent !== 4 ? <Tabs  setShowComponent={setShowComponent} showComponent={showComponent}></Tabs> : ""} */}
         </div>
         </WebAppProvider>

@@ -1,5 +1,6 @@
 import React from 'react'
 import { getTrackBackground, Range } from 'react-range';
+// import RangeSlider from 'react-range-slider-input';
 
 interface IFilterRange {
     values: number[],
@@ -23,6 +24,7 @@ export default function FilterRange({values, setValues}: IFilterRange) {
             width: '80vw'
           }}
         >
+        
           <Range
             values={values}
             step={STEP}
@@ -31,7 +33,9 @@ export default function FilterRange({values, setValues}: IFilterRange) {
             rtl={false}
             allowOverlap
             onChange={(values) => {
+              if (Math.abs(values[1] - values[0]) >= 2 ) {
               setValues(values);
+              }
             }}
             renderTrack={({ props, children }) => (
               <div

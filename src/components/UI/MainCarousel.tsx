@@ -13,11 +13,11 @@ const ImageSlider = ({ slides, person, currentIndex, setCurrentIndex }: IImages)
   
 
   const handleNextSlide = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % slides.length);
+    setCurrentIndex((prevIndex: number) => (prevIndex + 1) % slides.length);
   };
 
   const handlePrevSlide = () => {
-    setCurrentIndex((prevIndex) => (prevIndex - 1 + slides.length) % slides.length);
+    setCurrentIndex((prevIndex: number) => (prevIndex - 1 + slides.length) % slides.length);
   };
 
   const bind = useDrag(state => {
@@ -51,7 +51,8 @@ const ImageSlider = ({ slides, person, currentIndex, setCurrentIndex }: IImages)
         {slides.map((
             el: string, id: number
         ) => {
-            return <img key={id} src={"data:image/png;base64," + el} className={styles.image} style={{display: (id === currentIndex ? "block": "none")}}></img>
+          
+            return <img key={id} src={el} className={styles.image} style={{display: (id === currentIndex ? "block": "none")}}></img>
         })}
       {/* {[<img src={"img/image.png"}className={styles.image}></img>, <img src={"img/girl.jpg"}className={styles.image}></img>, <img src={"img/image.png"}className={styles.image}></img>][currentIndex]} */}
       <div className={styles.title}>
