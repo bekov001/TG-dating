@@ -1,7 +1,8 @@
-![image](https://github.com/user-attachments/assets/82669679-e157-4dfc-9676-b66935d64362)# TELEGRAM DATING APP
+# TELEGRAM DATING APP
 
 DEMO: https://match-tg.netlify.app/  (resize screen for smarphone size)
-[match-tg-netlify-app-i-Phone-12-Pro.png](https://postimg.cc/V5ncS6DB)
+
+[![match-tg-netlify-app-i-Phone-12-Pro.png](https://i.postimg.cc/QNnNyK7P/match-tg-netlify-app-i-Phone-12-Pro.png)](https://postimg.cc/V5ncS6DB)
 [![match-tg-netlify-app-i-Phone-12-Pro-1.png](https://i.postimg.cc/c4y1WyDM/match-tg-netlify-app-i-Phone-12-Pro-1.png)](https://postimg.cc/yWjCh5Ck)
 
 
